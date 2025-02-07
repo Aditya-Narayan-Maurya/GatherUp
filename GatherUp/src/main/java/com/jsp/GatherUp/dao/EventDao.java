@@ -1,12 +1,18 @@
 package com.jsp.GatherUp.dao;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.jsp.GatherUp.entity.Event;
+import com.jsp.GatherUp.entity.Registration;
+import com.jsp.GatherUp.entity.User;
 import com.jsp.GatherUp.repository.EventRepository;
+import com.jsp.GatherUp.repository.UserRepository;
 
 @Repository
 public class EventDao {
@@ -14,7 +20,13 @@ public class EventDao {
 	@Autowired
 	EventRepository eventRepository;
 	
-	public Event saveEventDao(Event event) {
+	@Autowired
+	UserRepository userRepository;
+	
+	public Event saveEventDao(Event event,Long userId) {
+		User user=userRepository.findById(userId).orElseThrow(null);
+		System.out.println("user=>"+user);
+		event.setUser(user);
 		return eventRepository.save(event);
 	}
 	
@@ -32,6 +44,7 @@ public class EventDao {
 		oldEvent.setDescription(updatedEvent.getDescription());
 		oldEvent.setDate(updatedEvent.getDate());
 		oldEvent.setVenue(updatedEvent.getVenue());
+		oldEvent.setEvent_image_url(updatedEvent.getEvent_image_url());
 		return eventRepository.save(oldEvent);
 	}
 	
@@ -49,5 +62,12 @@ public class EventDao {
 			return false;
 		}
 	}
+	
+	public List<Event> getEventByUser(Long userId) {
+		return eventRepository.findAll().stream()
+	            .filter(event -> event.getUser() != null && Objects.equals(event.getUser().getUser_id(), userId))
+	            .collect(Collectors.toList());
+	}
+
 
 }

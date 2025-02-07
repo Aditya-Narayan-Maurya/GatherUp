@@ -1,8 +1,10 @@
 package com.jsp.GatherUp.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import com.jsp.GatherUp.entity.Registration;
 import lombok.experimental.PackagePrivate;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:5173")
 public class RegistrationController {
 
 	@Autowired
@@ -48,7 +51,8 @@ public class RegistrationController {
 	}
 	
 	@PutMapping(value = "/registrations/{id}")
-	public Registration updateRegistrationById(@PathVariable Long id,@RequestBody String status) {
+	public Registration updateRegistrationById(@PathVariable Long id,@RequestBody Map<String, String> payload) {
+		String status=payload.get("status");
 		return registrationDao.updateRegistrationById(id, status);
 	}
 	

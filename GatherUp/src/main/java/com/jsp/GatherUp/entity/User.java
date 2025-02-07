@@ -36,4 +36,18 @@ public class User {
 	@OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
 	@JsonIgnore
 	private List<Feedback> feedbacks;
+	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnore
+	private List<Event> events;
+
+	@Override
+	public String toString() {
+		return "User [user_id=" + user_id + ", user_name=" + user_name + ", email=" + email + ", phone_number="
+				+ phone_number + ", password=" + password + ", role=" + role + ", registrations=" + registrations
+				+ ", feedbacks=" + feedbacks + "]";
+	}
+	
+	
 }
+	

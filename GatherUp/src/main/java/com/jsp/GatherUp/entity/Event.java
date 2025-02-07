@@ -30,6 +30,9 @@ public class Event {
 	 private String description;
 	 private LocalDateTime date;
 	 private String venue;
+	 private String event_image_url;
+	 private String category;
+	 
 	 
 	 @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
 	 @JsonIgnore
@@ -38,4 +41,8 @@ public class Event {
 	 @OneToMany(mappedBy = "event",cascade = CascadeType.ALL)
 	 @JsonIgnore
 	 private List<Feedback> feedbacks;
+	 
+	 @ManyToOne
+	 @JoinColumn(name = "created_by")
+	 private User user;
 }
