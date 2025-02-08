@@ -57,4 +57,9 @@ public class EventController {
 		System.out.println("id=>"+id);
 		return eventDao.getEventByUser(id);
 	}
+	
+	@GetMapping(value = "/trending")
+	public List<Event> getTrendingEventsController() {
+        return eventDao.getTrendingEventsDao();
+    }
 }

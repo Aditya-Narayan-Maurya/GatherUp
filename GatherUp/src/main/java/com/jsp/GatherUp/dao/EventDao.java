@@ -68,6 +68,10 @@ public class EventDao {
 	            .filter(event -> event.getUser() != null && Objects.equals(event.getUser().getUser_id(), userId))
 	            .collect(Collectors.toList());
 	}
+	
+	public List<Event> getTrendingEventsDao() {
+        return eventRepository.findTrendingEvents();
+    }
 
 
 }
