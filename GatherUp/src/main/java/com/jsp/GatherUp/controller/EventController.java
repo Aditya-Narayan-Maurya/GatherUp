@@ -1,9 +1,9 @@
 package com.jsp.GatherUp.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.jsp.GatherUp.dao.EventDao;
 import com.jsp.GatherUp.entity.Event;
-import com.jsp.GatherUp.entity.User;
 
 @CrossOrigin(origins = "http://localhost:5173")
 @RestController
@@ -27,14 +26,19 @@ public class EventController {
 	
 	@PostMapping(value = "/{userId}")
 	public Event saveEventController(@RequestBody Event event ,@PathVariable Long userId) {
-		System.out.println("event="+event);
-		System.out.println("userId"+userId);
+//		System.out.println("event="+event);
+//		System.out.println("userId"+userId);
 		return eventDao.saveEventDao(event,userId);
 	}
 	
 	@GetMapping
 	public List<Event> getAllEventController(){
 		return eventDao.getAllEventDao();
+	}
+	
+	@GetMapping(value = "/{pageNumber}/{pageSize}")
+	public Page<Event> getEventByPaginationDao(@PathVariable int pageNumber,@PathVariable int pageSize){
+		return eventDao.getEventByPaginationDao(pageNumber, pageSize);
 	}
 	
 	@GetMapping(value = "/{id}")

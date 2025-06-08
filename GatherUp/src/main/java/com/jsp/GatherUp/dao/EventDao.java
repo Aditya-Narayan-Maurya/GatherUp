@@ -1,15 +1,15 @@
 package com.jsp.GatherUp.dao;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
 import com.jsp.GatherUp.entity.Event;
-import com.jsp.GatherUp.entity.Registration;
 import com.jsp.GatherUp.entity.User;
 import com.jsp.GatherUp.repository.EventRepository;
 import com.jsp.GatherUp.repository.UserRepository;
@@ -25,13 +25,17 @@ public class EventDao {
 	
 	public Event saveEventDao(Event event,Long userId) {
 		User user=userRepository.findById(userId).orElseThrow(null);
-		System.out.println("user=>"+user);
+//		System.out.println("user=>"+user);
 		event.setUser(user);
 		return eventRepository.save(event);
 	}
 	
 	public List<Event> getAllEventDao(){
 		return eventRepository.findAll();
+	}
+	
+	public Page<Event> getEventByPaginationDao(int pageNumber,int pageSize){
+		return eventRepository.findAll(PageRequest.of(pageNumber, pageSize));
 	}
 	
 	public Event getEventDao(Long id) {
